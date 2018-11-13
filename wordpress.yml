@@ -5,8 +5,12 @@ services:
     image: wordpress
     depends_on:
       - mysql
-    ports:
-      - 8080:80
+    labels:
+      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.docker.network=proxy"
+    networks:
+      - proxy
+      - default
     environment:
       WORDPRESS_DB_PASSWORD: mysecurepassword
     volumes:
