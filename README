@@ -1,0 +1,12 @@
+# My Docker Stuff
+
+## Wordpress
+You'll need a network created called "proxy" before running the Wordpress stack. This is so Traefik has a place to meet WP.
+
+`docker network create -d overlay proxy`
+
+You also need to deploy the Traefik stack before Wordpress will be accessible.
+
+`docker stack deploy -c traefik.yml traefik`
+
+`docker stack deploy -c wordpress.yml wordpress`
