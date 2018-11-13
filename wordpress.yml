@@ -5,12 +5,6 @@ services:
     image: wordpress
     depends_on:
       - mysql
-    labels:
-      - "traefik.frontend.rule=Host:localhost"
-      - "traefik.docker.network=proxy"
-    networks:
-      - proxy
-      - default
     environment:
       WORDPRESS_DB_PASSWORD: mysecurepassword
     volumes:
@@ -22,6 +16,19 @@ services:
       MYSQL_ROOT_PASSWORD: mysecurepassword
     volumes:
       - db:/var/lib/mysql
+
+  varnish:
+    image: codatory/varnish
+    labels:
+      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.docker.network=proxy"
+    networks:
+      - proxy
+      - default
+    depends_on:
+      - wordpress
+    environment:
+      BACKEND: wordpress
 
 networks:
   proxy:
