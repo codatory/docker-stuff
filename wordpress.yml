@@ -9,8 +9,24 @@ services:
       - 8080:80
     environment:
       WORDPRESS_DB_PASSWORD: mysecurepassword
+    volumes:
+      - wp:/var/www/html
 
   mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: mysecurepassword
+    volumes:
+      - db:/var/lib/mysql
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  wp:
+    name: wp
+    driver: local
+  db:
+    name: db
+    driver: local
